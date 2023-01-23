@@ -1,7 +1,7 @@
-#Descripcion 
+# Descripcion 
 Microservicio para la creación y consulta de productos y sus categorias
 
-#Funcionalidades
+# Funcionalidades
 *createProduct
 *createCategory
 *AllProduct

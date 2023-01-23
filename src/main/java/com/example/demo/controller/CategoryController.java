@@ -1,4 +1,4 @@
-package com.example.demo.unit.controller;
+package com.example.demo.controller;
 
 import com.example.demo.dto.request.CategoryRequest;
 import com.example.demo.service.ICategoryService;

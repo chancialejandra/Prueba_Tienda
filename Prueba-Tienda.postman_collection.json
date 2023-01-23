@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "ed65e53e-7d32-4695-9e66-5e9d1e52fb9c",
+		"name": "Prueba-Tienda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24085915"
+	},
+	"item": [
+		{
+			"name": "Create-Category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cid\":1,\n    \"title\": \"teamo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/nexsys/v1/category/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nexsys",
+						"v1",
+						"category",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create-Products",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Felipe Valencia\",\n    \"price_final\" : 800,\n    \"description\" : \"mi vida\",\n    \"category_id\" : 1,\n    \"image_url\" : \"hola.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/nexsys/v1/products/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nexsys",
+						"v1",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All-Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/nexsys/v1/products/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nexsys",
+						"v1",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All-Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/nexsys/v1/category/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nexsys",
+						"v1",
+						"category",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

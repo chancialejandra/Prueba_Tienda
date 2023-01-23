@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.request.CategoryRequest;
+import com.example.demo.dto.response.CategoriesResponse;
 import com.example.demo.dto.response.CategoryResponse;
-import com.example.demo.dto.response.CategorysResponse;
 import com.example.demo.entity.Category;
 import com.example.demo.repository.ICategoryRepository;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryService implements ICategoryService{
+public class CategoryService implements ICategoryService {
 
   private final ICategoryRepository categoryRepository;
   ModelMapper mapper = new ModelMapper();
@@ -27,29 +27,27 @@ public class CategoryService implements ICategoryService{
   }
 
   @Override
-  public CategoryResponse category(CategoryRequest categoryRequest) {
+  public CategoryResponse createCategory(CategoryRequest categoryRequest) {
 
-    CategoryResponse categoryResponse = null;
-    Category category = mapper.map(categoryRequest,Category.class);
-    try{
-      if(existCategory(category.getCId())){//revisar
+    Category category = mapper.map(categoryRequest, Category.class);
+    try {
+      if (existCategory(category.getCId())) {
         return CategoryResponse.builder()
-          .message("la categoria ya existe")
-          .status(HttpStatus.BAD_REQUEST)
-          .build();
-      }else{
-        var response = categoryRepository.save(category);
-        categoryResponse = CategoryResponse.builder()
+            .message("la categoria ya existe")
+            .status(HttpStatus.BAD_REQUEST)
+            .build();
+      }
+      var response = categoryRepository.save(category);
+      return CategoryResponse.builder()
           .cId(response.getCId())
           .message("Guardado con exito")
           .status(HttpStatus.OK)
           .build();
-        return categoryResponse;
-      }
-    }catch(Exception ex){
-      System.out.println("Error guardando");
+
+    } catch (Exception ignored) {
+
     }
-    return categoryResponse;
+    return null;
   }
 
   @Override
@@ -58,11 +56,10 @@ public class CategoryService implements ICategoryService{
   }
 
   @Override
-  public List<CategorysResponse> allCategory() {
-    List<CategorysResponse> listCategorys = categoryRepository.findAll()
+  public List<CategoriesResponse> allCategory() {
+    return categoryRepository.findAll()
         .stream()
-        .map(x -> mapper.map(x, CategorysResponse.class))
+        .map(x -> mapper.map(x, CategoriesResponse.class))
         .collect(Collectors.toList());
-    return  listCategorys;
   }
 }

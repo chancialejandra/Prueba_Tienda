@@ -4,9 +4,7 @@ import com.example.demo.dto.request.ProductRequest;
 import com.example.demo.dto.response.ProductResponse;
 import com.example.demo.dto.response.ProductsResponse;
 import com.example.demo.entity.Product;
-import com.example.demo.mapper.IProductMapper;
-import com.example.demo.mapper.ListProductMapper;
-import com.example.demo.mapper.ProdutMapper;
+import com.example.demo.mapper.ProductMapper;
 import com.example.demo.repository.IProductRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,60 +13,51 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductService implements IProductService{
+public class ProductService implements IProductService {
 
   private final IProductRepository productRepository;
   private final ICategoryService categoryService;
-//  private final IProductMapper mapperProduct;
 
   ModelMapper mapper = new ModelMapper();
 
-  public ProductService(IProductRepository productRepository, ICategoryService categoryService)
-//                        IProductMapper mapperProduct)
-                       {
+  public ProductService(IProductRepository productRepository, ICategoryService categoryService) {
     this.productRepository = productRepository;
     this.categoryService = categoryService;
-//    this.mapperProduct = mapperProduct;
   }
 
 
   @Override
-  public ProductResponse product(ProductRequest productRequest) {
-
-    ProductResponse productResponse = null;
+  public ProductResponse createProduct(ProductRequest productRequest) {
 
     try {
-        if(!categoryService.existCategory(productRequest.getCategoryId())){
-          return ProductResponse.builder()
-              .message("la categoria no existe")
-             .status(HttpStatus.BAD_REQUEST)
-              .build();
-        }else{
-          var categoryProduct = categoryService.searchCategory(productRequest.getCategoryId());
-          Product product = ProdutMapper.mapProduct(productRequest,categoryProduct);
-
-          var response = productRepository.save(product);
-          productResponse = ProductResponse.builder()
-              .pId(response.getPId())
-              .message("Guardado con exito")
-              .status(HttpStatus.OK)
-              .build();
-
-          return productResponse;
+      if (!categoryService.existCategory(productRequest.getCategoryId())) {
+        return ProductResponse.builder()
+            .message("la categoria no existe")
+            .status(HttpStatus.BAD_REQUEST)
+            .build();
       }
-    }catch(Exception ex){
-      System.out.println("Error guardando");
+      var categoryProduct = categoryService.searchCategory(productRequest.getCategoryId());
+      Product product = ProductMapper.mapProduct(productRequest, categoryProduct);
+
+      var response = productRepository.save(product);
+      return ProductResponse.builder()
+          .pId(response.getPId())
+          .message("Guardado con exito")
+          .status(HttpStatus.OK)
+          .build();
+
+    } catch (Exception ignored) {
+
     }
-    return productResponse;
+    return null;
   }
 
   @Override
-  public List<ProductsResponse> allProduct() {
-    List<ProductsResponse> listProduts = productRepository.findAll()
+  public List<ProductsResponse> allProducts() {
+    return productRepository.findAll()
         .stream()
-        .map(x -> mapper.map(x,ProductsResponse.class))
+        .map(x -> mapper.map(x, ProductsResponse.class))
         .collect(Collectors.toList());
-   return listProduts;
 
   }
 }
